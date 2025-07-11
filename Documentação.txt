@@ -1,0 +1,79 @@
+=====================================================
+ DOCUMENTAÇÃO DO PROJETO: RECONHECIMENTO DE DÍGITOS MNIST
+=====================================================
+
+
+SOBRE O PROJETO
+-----------------
+Este projeto implementa uma Rede Neural Convolucional (CNN) para classificar imagens de dígitos manuscritos (0 a 9) do dataset MNIST. O objetivo é demonstrar um fluxo de trabalho completo de um projeto de Deep Learning, desde o pré-processamento dos dados até a avaliação final do modelo treinado.
+
+O modelo foi desenvolvido em Python, utilizando o framework TensorFlow com a API de alto nível Keras.
+
+
+TECNOLOGIAS UTILIZADAS
+--------------------------
+* Python 3.11+
+* TensorFlow / Keras
+* NumPy
+* Matplotlib
+* Jupyter Notebook
+
+
+ESTRUTURA DOS ARQUIVOS
+------------------------
+* Reconhecimento_de_Digitos.ipynb -> O Jupyter Notebook contendo todo o código do projeto, passo a passo.
+* requirements.txt -> Arquivo que lista todas as dependências de bibliotecas para que o projeto possa ser facilmente reproduzido.
+* README.md -> Documentação principal do projeto, formatada para visualização no GitHub.
+* DOCUMENTACAO.txt -> Este arquivo, com a documentação detalhada em formato de texto.
+* .gitignore -> Arquivo que especifica quais arquivos e pastas devem ser ignorados pelo Git (ex: a pasta do ambiente virtual).
+
+
+COMO EXECUTAR O PROJETO
+-------------------------
+Para configurar e executar este projeto em sua máquina local, siga os passos abaixo:
+
+1) Clone o repositório do GitHub para sua máquina.
+2) Navegue até a pasta do projeto e crie um ambiente virtual.
+3) Ative o ambiente virtual.
+4) Instale todas as dependências necessárias com um único comando.
+5) Inicie o servidor Jupyter.
+
+Após este comando, uma aba abrirá em seu navegador. Clique no arquivo com extensão ".ipynb" para abrir e executar o projeto.
+
+
+DETALHAMENTO DO CÓDIGO (PASSO A PASSO)
+----------------------------------------
+
+--- PASSO 1: CONFIGURAÇÃO E IMPORTAÇÕES ---
+A primeira etapa consiste em importar todas as ferramentas necessárias para o projeto. TensorFlow (tf) é o nosso framework principal para criar a rede neural. NumPy (np) é utilizado para operações numéricas eficientes, especialmente com os arrays que representam as imagens. Matplotlib (plt) é usado para a visualização de dados, como as imagens dos dígitos e os gráficos de performance do modelo.
+
+
+--- PASSO 2: CARREGAMENTO E PRÉ-PROCESSAMENTO DOS DADOS ---
+Nesta fase, carregamos o dataset MNIST, que já vem integrado ao Keras. Ele é dividido em dois conjuntos: um de treino (com 60.000 imagens e seus respectivos rótulos) e um de teste (com 10.000 imagens e rótulos).
+
+A operação de pré-processamento mais importante aqui é a NORMALIZAÇÃO. Os pixels das imagens originalmente têm valores de 0 (preto) a 255 (branco). Normalizamos esses valores para o intervalo de 0 a 1, dividindo todos os pixels por 255.0. Esta etapa é crucial para que o treinamento da rede neural seja mais rápido e estável.
+
+
+--- PASSO 3: PREPARAÇÃO FINAL E CONSTRUÇÃO DO MODELO ---
+Antes de criar o modelo, ajustamos o formato dos dados:
+1.  REMODELAGEM (RESHAPE): As imagens são remodeladas de (60000, 28, 28) para (60000, 28, 28, 1). A dimensão extra "1" representa o canal de cor (escala de cinza), um requisito das camadas convulsionais do Keras.
+2.  ONE-HOT ENCODING: Os rótulos (ex: 5, 7, 1) são convertidos para um formato vetorial. Por exemplo, o rótulo "5" se torna um vetor de 10 posições: [0,0,0,0,0,1,0,0,0,0]. Isso é necessário para que o formato do gabarito seja compatível com a camada de saída "softmax" de 10 neurônios do nosso modelo.
+
+A arquitetura da Rede Neural Convulsional (CNN) é então construída camada a camada. Ela consiste em camadas de Convolução (Conv2D) e Pooling (MaxPooling2D) para extrair características visuais das imagens, uma camada Flatten para converter os dados para um formato vetorial, e camadas Densas (Dense) para realizar a classificação final.
+
+
+--- PASSO 4: COMPILAÇÃO E TREINAMENTO ---
+Com a arquitetura pronta, o modelo é "compilado". Nesta etapa, definimos o otimizador ('adam'), que é o algoritmo que ajusta os pesos do modelo; a função de perda ('categorical_crossentropy'), que mede o erro do modelo; e a métrica de avaliação ('accuracy').
+
+O treinamento é iniciado com a função "fit", onde o modelo itera sobre o conjunto de dados de treino por um número definido de "épocas". A cada época, ele tenta minimizar a função de perda, melhorando sua acurácia.
+
+
+--- PASSO 5: AVALIAÇÃO E ANÁLISE DOS RESULTADOS ---
+Após o treinamento, o desempenho final do modelo é medido no conjunto de teste - dados que ele nunca viu antes. Isso nos dá uma métrica imparcial de sua capacidade de generalização.
+
+Além disso, os gráficos de acurácia e perda ao longo das épocas são plotados para uma análise visual. Isso nos permite verificar se o treinamento ocorreu de forma saudável e se o modelo não sofreu de "overfitting" (quando o modelo decora os dados de treino em vez de aprender a generalizar).
+
+
+RESULTADOS
+------------
+- Acurácia Final no Conjunto de Teste: 98,90%
